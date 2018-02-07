@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ScannerTool</string>
+    <string name="app_title">Package Scanner</string>
 </resources>
