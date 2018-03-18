@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Login"/>
+            android:text="@string/str_login"/>
 
         <Button
             android:id="@+id/TrackButton"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/LoginButton"
             android:layout_centerInParent="true"
-            android:text="Track Package"/>
+            android:text="@string/str_trackPckg"/>
 
     </RelativeLayout>
 
