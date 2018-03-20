@@ -42,7 +42,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".2"
-            android:hint="@string/str_Password"/>
+            android:hint="@string/str_Password"
+            android:inputType="textPassword"/>
 
     </LinearLayout>
 
@@ -54,15 +55,19 @@
 
         <Button
             android:id="@+id/Login"
+            android:padding="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="16sp"
             android:text="@string/str_login"/>
 
         <Button
             android:id="@+id/goBack"
+            android:padding="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/Login"
+            android:textSize="16sp"
             android:text="@string/str_goBack"/>
 
     </RelativeLayout>
