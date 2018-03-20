@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <TextView
+        android:id="@+id/LoginText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        android:textSize="15pt"
+        android:text="@string/str_loginWelcome"/>
+
+    <LinearLayout
+        android:id="@+id/LoginInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/LoginText"
+        android:orientation="horizontal"
+        android:padding="30dp">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".2"
+            android:hint="@string/str_Username"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LoginInfo2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/LoginInfo"
+        android:orientation="horizontal"
+        android:padding="30dp">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".2"
+            android:hint="@string/str_Password"
+            android:inputType="textPassword"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/LoginInfo2"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/Login"
+            android:padding="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="@string/str_login"/>
+
+        <Button
+            android:id="@+id/goBack"
+            android:padding="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/Login"
+            android:textSize="16sp"
+            android:text="@string/str_goBack"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
