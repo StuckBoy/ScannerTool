@@ -4,6 +4,7 @@
     <string name="str_login">Login</string>
     <string name="str_loginWelcome">Please enter login information.</string>
     <string name="str_trackWelcome">Please enter the tracking number below.</string>
+    <string name="str_trackMult">To track multiple packages, please place each number on a new line.</string>
     <string name="str_trackPckg">Track Package</string>
     <string name="str_Username">Username</string>
     <string name="str_Password">Password</string>
