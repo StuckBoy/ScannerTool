@@ -27,7 +27,9 @@ public class MainActivity extends AppCompatActivity {
         trackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Navigate to tracking page.
+                Intent trackIntent = new Intent(MainActivity.this, TrackActivity.class);
+                MainActivity.this.startActivity(trackIntent);
+                finish();
             }
         });
     }

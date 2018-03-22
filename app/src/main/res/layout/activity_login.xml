@@ -24,6 +24,7 @@
 
         <EditText
             android:layout_width="0dp"
+            android:singleLine="true"
             android:layout_height="wrap_content"
             android:layout_weight=".2"
             android:hint="@string/str_Username"/>
@@ -40,10 +41,11 @@
 
         <EditText
             android:layout_width="0dp"
+            android:singleLine="true"
             android:layout_height="wrap_content"
             android:layout_weight=".2"
-            android:hint="@string/str_Password"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            android:hint="@string/str_Password"/>
 
     </LinearLayout>
 
@@ -59,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="@string/str_login"/>
+            android:text="@string/str_submit"/>
 
         <Button
             android:id="@+id/goBack"

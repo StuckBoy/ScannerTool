@@ -16,6 +16,7 @@
 
     <TextView
         android:id="@+id/MultiMessage"
+        android:paddingBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/TrackText"
@@ -23,12 +24,36 @@
         android:layout_centerVertical="true"
         android:text="@string/str_trackMult"/>
 
+    <LinearLayout
+        android:id="@+id/TextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1"
+        android:layout_below="@+id/MultiMessage">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/MultiMessage"
-        android:layout_centerInParent="true"
-        android:text="@string/str_trackPckg"/>
+        <EditText
+            android:id="@+id/PackageEntry"
+            android:inputType="textMultiLine"
+            android:gravity="top"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".85"
+            android:background="@color/lightGray"/>
 
+        <Button
+            android:id="@+id/TrackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/str_trackPckg"/>
+
+        <Button
+            android:id="@+id/BackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/str_goBack"/>
+
+    </LinearLayout>
 </RelativeLayout>
