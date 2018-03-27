@@ -11,9 +11,9 @@ import android.widget.Button;
  * for project ScannerTool.
  */
 
-public class TrackActivity extends AppCompatActivity{
+public class TrackActivity extends AppCompatActivity {
 
-    private Button trackPkg, returnButton;
+    Button trackPkg, returnButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

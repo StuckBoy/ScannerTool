@@ -8,7 +8,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button logButton, trackButton;
+    Button logButton, trackButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

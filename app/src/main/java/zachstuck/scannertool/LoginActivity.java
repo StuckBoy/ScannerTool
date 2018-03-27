@@ -11,9 +11,9 @@ import android.widget.Button;
  for project ScannerTool.
  */
 
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity {
 
-    private Button submitButton, returnButton;
+    Button submitButton, returnButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,13 @@ public class LoginActivity extends AppCompatActivity{
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Do the login stuff...
+                //Do login checks
+                boolean permitEntry = true;
+                if (permitEntry) {
+                    Intent logIntent = new Intent(LoginActivity.this, UserPageActivity.class);
+                    LoginActivity.this.startActivity(logIntent);
+                    finish();
+                }
             }
         });
         returnButton = findViewById(R.id.goBack);
