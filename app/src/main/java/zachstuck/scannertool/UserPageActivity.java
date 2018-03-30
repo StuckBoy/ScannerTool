@@ -36,7 +36,8 @@ public class UserPageActivity extends AppCompatActivity {
         manEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Next View Stuff
+                Intent manIntent = new Intent(UserPageActivity.this, ManualEntryActivity.class);
+                startActivity(manIntent);
             }
         });
     }

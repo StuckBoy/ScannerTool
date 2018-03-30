@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/LoginText"
         android:orientation="horizontal"
-        android:padding="30dp">
+        android:padding="20dp">
 
         <EditText
             android:layout_width="0dp"
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/LoginInfo"
         android:orientation="horizontal"
-        android:padding="30dp">
+        android:padding="20dp">
 
         <EditText
             android:layout_width="0dp"

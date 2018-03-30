@@ -7,9 +7,13 @@
     <string name="str_userWelcome">Welcome, please select an action below.</string>
     <string name="str_trackWelcome">Enter tracking number(s) below.</string>
     <string name="str_trackMult">To track multiple packages,\nplease place each number on a new line.\n(Max 5 per search)</string>
+    <string name="str_manualTrack">Please enter tracking information below, then press submit.</string>
     <string name="str_trackPckg">Track Package</string>
     <string name="str_scanPckg">Scan\nPackage</string>
     <string name="str_manualScan">Manual\nEntry</string>
+    <string name="str_getLocation">Get Coords</string>
+    <string name="str_pkgNumber">Package Number</string>
+    <string name="str_Location">Location</string>
     <string name="str_Username">Username</string>
     <string name="str_Password">Password</string>
     <string name="str_logout">Logout</string>
