@@ -1,7 +1,9 @@
 package zachstuck.scannertool;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -44,12 +46,31 @@ public class UserPageActivity extends AppCompatActivity {
 
     public void onBackPressed() {
         //Pop-up confirmation
-        boolean confirmed = true;
-        if (confirmed) {
-            //Log the person out...kill their session
-            Intent logOutIntent = new Intent(UserPageActivity.this, LoginActivity.class);
-            UserPageActivity.this.startActivity(logOutIntent);
-            finish();
-        }
+        boolean confirmed = false;
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(UserPageActivity.this);
+        builder.setTitle("Logout Confirmation");
+        builder.setMessage("Are you sure you want to log out?");
+        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                logoutConfirmed();
+            }
+        });
+        builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //Canceled logout, resume normal activity
+            }
+        });
+        builder.setIcon(android.R.drawable.ic_dialog_alert);
+        builder.show();
+    }
+
+    public void logoutConfirmed() {
+        //Log the person out...kill their session
+        Intent logOutIntent = new Intent(UserPageActivity.this, LoginActivity.class);
+        UserPageActivity.this.startActivity(logOutIntent);
+        finish();
     }
 }

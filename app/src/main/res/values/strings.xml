@@ -19,4 +19,6 @@
     <string name="str_logout">Logout</string>
     <string name="str_refresh">Refresh</string>
     <string name="str_goBack">Go Back</string>
+    <string name="str_confirm">Confirm</string>
+    <string name="str_cancel">Cancel</string>
 </resources>
