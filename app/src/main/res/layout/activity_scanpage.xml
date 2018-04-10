@@ -55,13 +55,15 @@
             android:layout_height="wrap_content"
             android:layout_weight=".2"
             android:inputType="text"
-            android:hint="@string/str_Location"/>
+            android:hint="@string/str_Location"
+            android:focusable="false"/>
 
         <Button
             android:id="@+id/coordsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/str_getLocation"/>
+            android:text="@string/str_getLocation"
+            android:focusable="false"/>
 
     </LinearLayout>
 
@@ -86,7 +88,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".15"
-            android:inputType="none"/>
+            android:inputType="none"
+            android:focusable="false"/>
 
         <Button
             android:id="@+id/refreshTime"
@@ -117,7 +120,8 @@
             android:layout_height="wrap_content"
             android:layout_weight=".15"
             android:hint="@string/str_Username"
-            android:inputType="none"/>
+            android:inputType="none"
+            android:focusable="false"/>
 
     </LinearLayout>
 

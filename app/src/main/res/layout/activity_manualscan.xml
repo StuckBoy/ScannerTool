@@ -78,7 +78,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".15"
-            android:inputType="none"/>
+            android:inputType="none"
+            android:focusable="false"/>
 
         <Button
             android:id="@+id/refreshTime"
@@ -109,7 +110,8 @@
             android:layout_height="wrap_content"
             android:layout_weight=".15"
             android:hint="@string/str_Username"
-            android:inputType="none"/>
+            android:inputType="none"
+            android:focusable="false"/>
 
     </LinearLayout>
 
