@@ -20,8 +20,7 @@
         android:layout_below="@+id/ScanInstructions"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="15dp">
+        android:paddingRight="10dp">
 
         <EditText
             android:id="@+id/pkgField"
@@ -48,8 +47,7 @@
         android:layout_below="@+id/ScanInfo"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="15dp">
+        android:paddingRight="10dp">
 
         <EditText
             android:layout_width="0dp"
@@ -76,8 +74,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="15dp">
+        android:paddingRight="10dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -107,8 +104,7 @@
         android:layout_below="@+id/dateTime"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="15dp">
+        android:paddingRight="10dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -134,8 +130,7 @@
         android:layout_below="@+id/userInfo"
         android:gravity="center"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="15dp">
+        android:paddingRight="10dp">
 
         <Button
             android:id="@+id/submitData"

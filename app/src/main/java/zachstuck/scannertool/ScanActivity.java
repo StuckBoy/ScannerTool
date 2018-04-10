@@ -8,6 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.zxing.client.android.Intents;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 import java.util.Calendar;
 
 /**
@@ -18,7 +24,7 @@ import java.util.Calendar;
 public class ScanActivity extends AppCompatActivity {
 
     Button submitButton, cancelButton, coordButton, scanPkgButton, refreshButton;
-    EditText timestamp, userSlot;
+    EditText timeSlot, userSlot, pkgSlot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +35,11 @@ public class ScanActivity extends AppCompatActivity {
         coordButton = findViewById(R.id.coordsButton);
         scanPkgButton = findViewById(R.id.scanButton);
         refreshButton = findViewById(R.id.refreshTime);
-        timestamp = findViewById(R.id.timeSlot);
+
+        timeSlot = findViewById(R.id.timeSlot);
         userSlot = findViewById(R.id.userSlot);
+        pkgSlot = findViewById(R.id.pkgField);
+
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,8 +61,8 @@ public class ScanActivity extends AppCompatActivity {
         scanPkgButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Do the scan thing
-                //Fetch the result
+                //IntentIntegrator derives from ZXing integrated library
+                new IntentIntegrator(ScanActivity.this).initiateScan();
             }
         });
         refreshButton.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +75,20 @@ public class ScanActivity extends AppCompatActivity {
         setTime();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null) {
+            if(result.getContents() == null) {
+                Toast.makeText(ScanActivity.this, "Cancelled", Toast.LENGTH_LONG).show();
+            } else {
+                pkgSlot.setText(result.getContents());
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
     public void setTime() {
         Calendar cal = Calendar.getInstance();
         int year, month, day, hour, minute;
@@ -74,7 +97,7 @@ public class ScanActivity extends AppCompatActivity {
         day = cal.get(Calendar.DATE);
         hour = cal.get(Calendar.HOUR_OF_DAY);
         minute = cal.get(Calendar.MINUTE);
-        timestamp.setText(month + "/" + day + "/" + year + " @ " + hour + ":" + minute);
+        timeSlot.setText(month + "/" + day + "/" + year + " @ " + hour + ":" + minute);
     }
 
     public void onBackPressed() {
