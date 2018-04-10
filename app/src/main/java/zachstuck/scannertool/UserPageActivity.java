@@ -26,7 +26,8 @@ public class UserPageActivity extends AppCompatActivity {
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Open the ZXing scanner
+                Intent scanIntent = new Intent(UserPageActivity.this, ScanActivity.class);
+                startActivity(scanIntent);
             }
         });
         logButton.setOnClickListener(new View.OnClickListener() {
@@ -45,8 +46,6 @@ public class UserPageActivity extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-        //Pop-up confirmation
-        boolean confirmed = false;
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(UserPageActivity.this);
         builder.setTitle("Logout Confirmation");

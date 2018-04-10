@@ -1,56 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp">
 
     <TextView
-        android:id="@+id/ScanText"
+        android:id="@+id/ScanInstructions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
-        android:textAlignment="center"
         android:textSize="12pt"
-        android:text="@string/str_manualTrack"/>
+        android:textAlignment="center"
+        android:text="@string/str_scanInstructions"/>
 
     <LinearLayout
-        android:id="@+id/TrackingInfo"
+        android:id="@+id/ScanInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ScanText"
+        android:layout_below="@+id/ScanInstructions"
         android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="15dp">
 
         <EditText
             android:layout_width="0dp"
+            android:singleLine="true"
             android:layout_height="wrap_content"
-            android:layout_weight=".15"
-            android:inputType="number"
+            android:layout_weight=".2"
+            android:inputType="text"
             android:hint="@string/str_pkgNumber"/>
+
+        <Button
+            android:id="@+id/scanButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/str_scanPckgNoSplit"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/TrackingInfo2"
+        android:id="@+id/ScanInfo2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/TrackingInfo"
+        android:layout_below="@+id/ScanInfo"
         android:orientation="horizontal"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="15dp">
 
-    <EditText
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight=".15"
-        android:inputType="none"
-        android:hint="@string/str_Location"/>
+        <EditText
+            android:layout_width="0dp"
+            android:singleLine="true"
+            android:layout_height="wrap_content"
+            android:layout_weight=".2"
+            android:inputType="text"
+            android:hint="@string/str_Location"/>
 
         <Button
-            android:id="@+id/GetCoords"
+            android:id="@+id/coordsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/str_getLocation"/>
@@ -59,12 +67,12 @@
 
     <LinearLayout
         android:id="@+id/dateTime"
-        android:layout_below="@id/TrackingInfo2"
+        android:layout_below="@id/ScanInfo2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:paddingTop="15dp">
 
         <TextView
@@ -93,8 +101,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/dateTime"
         android:orientation="horizontal"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:paddingTop="15dp">
 
         <TextView
@@ -113,25 +121,32 @@
 
     </LinearLayout>
 
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/userInfo"
-        android:padding="10dp"
-        android:gravity="center_horizontal">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userInfo"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="15dp">
 
         <Button
-            android:id="@+id/scanButton"
+            android:id="@+id/submitData"
+            android:padding="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="16sp"
             android:text="@string/str_submit"/>
 
         <Button
-            android:id="@+id/goBack"
+            android:id="@+id/cancelScan"
+            android:padding="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/scanButton"
-            android:text="@string/str_goBack" />
+            android:layout_toEndOf="@+id/submitData"
+            android:textSize="16sp"
+            android:text="@string/str_cancel"/>
 
     </RelativeLayout>
 
