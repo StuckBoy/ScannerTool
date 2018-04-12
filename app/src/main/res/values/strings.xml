@@ -16,6 +16,7 @@
     <string name="str_scanPckgNoSplit">Scan Package</string>
     <string name="str_manualScan">Manual\nEntry</string>
     <string name="str_getLocation">Get Coords</string>
+    <string name="str_coords">Coords:</string>
     <string name="str_pkgNumber">Package Number</string>
     <string name="str_Location">Location</string>
     <string name="str_Username">Username</string>

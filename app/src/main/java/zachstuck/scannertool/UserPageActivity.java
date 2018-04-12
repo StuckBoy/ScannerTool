@@ -1,8 +1,10 @@
 package zachstuck.scannertool;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.Button;
  * Created by Zachary Stuck on 3/27/2018
  * for project ScannerTool.
  */
+
 public class UserPageActivity extends AppCompatActivity {
 
     Button scanButton, logButton, manEntryButton;
@@ -43,6 +46,7 @@ public class UserPageActivity extends AppCompatActivity {
                 startActivity(manIntent);
             }
         });
+        ActivityCompat.requestPermissions(UserPageActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
     }
 
     public void onBackPressed() {
