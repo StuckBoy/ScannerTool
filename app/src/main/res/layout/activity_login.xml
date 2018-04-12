@@ -23,6 +23,7 @@
         android:padding="20dp">
 
         <EditText
+            android:id="@+id/userField"
             android:layout_width="0dp"
             android:singleLine="true"
             android:layout_height="wrap_content"
@@ -40,6 +41,7 @@
         android:padding="20dp">
 
         <EditText
+            android:id="@+id/passField"
             android:layout_width="0dp"
             android:singleLine="true"
             android:layout_height="wrap_content"
