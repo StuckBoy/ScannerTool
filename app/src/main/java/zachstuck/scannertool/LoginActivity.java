@@ -101,11 +101,12 @@ public class LoginActivity extends AppCompatActivity {
             Log.d("onPostExecute", result);
             if (result.equals("Success!")) {
                 Intent logIntent = new Intent(LoginActivity.this, UserPageActivity.class);
+                logIntent.putExtra("userKey", username);
                 LoginActivity.this.startActivity(logIntent);
                 finish();
             }
             else if (result.equals("Error")) {
-                Toast.makeText(LoginActivity.this, "Error while logging in, please try again.", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "Error logging in, please try again.", Toast.LENGTH_LONG).show();
             }
         }
     }

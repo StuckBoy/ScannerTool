@@ -34,6 +34,7 @@ public class ScanActivity extends AppCompatActivity {
     EditText timeSlot, userSlot, pkgSlot, coordSlot;
     LocationManager locMan;
     Context aContext;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,16 @@ public class ScanActivity extends AppCompatActivity {
         pkgSlot = findViewById(R.id.pkgField);
         coordSlot = findViewById(R.id.coordField);
 
+        Bundle extras = getIntent().getExtras();
+
+        try {
+            username = extras.getString("userKey");
+            userSlot.setText(username);
+        }
+        catch (NullPointerException ne){
+            userSlot.setText(R.string.str_error);
+        }
+
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,7 +78,12 @@ public class ScanActivity extends AppCompatActivity {
         coordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Poll Location
+                try {
+                    locMan.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                }
+                catch(SecurityException e) {
+                    checkForLocEnabled(locMan, aContext);
+                }
             }
         });
         scanPkgButton.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +132,6 @@ public class ScanActivity extends AppCompatActivity {
             checkForLocEnabled(locMan, aContext);
         }
         setTime();
-
     }
 
     @Override
@@ -124,7 +139,6 @@ public class ScanActivity extends AppCompatActivity {
         super.onResume();
         checkForLocEnabled(locMan, aContext);
     }
-
 
     private void checkForLocEnabled(LocationManager locMan, Context aContext) {
         if (!locMan.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -167,7 +181,6 @@ public class ScanActivity extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
-
 
     //Refreshes the current time and stores it to the EditText field.
     public void setTime() {

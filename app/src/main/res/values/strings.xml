@@ -10,6 +10,7 @@
     <string name="str_manualTrack">Please enter tracking information below, then press submit.</string>
     <string name="str_scanInstructions">Please complete the form below, then press submit.</string>
     <string name="str_currentUser">Submitting as:</string>
+    <string name="str_userStatus">Logged in as: </string>
     <string name="str_timeStamp">Timestamp:</string>
     <string name="str_trackPckg">Track Package</string>
     <string name="str_scanPckg">Scan\nPackage</string>
@@ -26,4 +27,5 @@
     <string name="str_goBack">Go Back</string>
     <string name="str_confirm">Confirm</string>
     <string name="str_cancel">Cancel</string>
+    <string name="str_error">Error</string>
 </resources>

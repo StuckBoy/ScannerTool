@@ -9,6 +9,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 /**
  * Created by Zachary Stuck on 3/27/2018
@@ -18,18 +21,32 @@ import android.widget.Button;
 public class UserPageActivity extends AppCompatActivity {
 
     Button scanButton, logButton, manEntryButton;
+    TextView userfield;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userpage);
+
         scanButton = findViewById(R.id.scanButton);
         logButton = findViewById(R.id.logoutButton);
         manEntryButton = findViewById(R.id.manEntryButton);
+
+        userfield = findViewById(R.id.userField);
+        Bundle userInfo = getIntent().getExtras();
+        try {
+            String username = userInfo.getString("userKey");
+            userfield.setText(username);
+        }
+        catch (NullPointerException ne) {
+            userfield.setText(R.string.str_error);
+        }
+
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent scanIntent = new Intent(UserPageActivity.this, ScanActivity.class);
+                scanIntent.putExtra("userKey", userfield.getText());
                 startActivity(scanIntent);
             }
         });
