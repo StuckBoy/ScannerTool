@@ -43,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
                 username = userCred.getText().toString();
                 password = passCred.getText().toString();
                 new AsyncLogin().execute(username, password);
-
             }
         });
         returnButton = findViewById(R.id.goBack);
@@ -66,8 +65,8 @@ public class LoginActivity extends AppCompatActivity {
 
         protected String doInBackground(String... args) {
             try {
-                String username = (String) args[0];
-                String password = (String) args[1];
+                String username = args[0];
+                String password = args[1];
 
                 String link = "http://euclid.nmu.edu/~zstuck/seniorProjStuff/scannerLogin.php";
                 String data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
@@ -93,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                 return stringBuilder.toString();
             }
             catch (Exception e) {
-                return new String("Exception: " + e.getMessage());
+                return "Exception: " + e.getMessage();
             }
         }
 
