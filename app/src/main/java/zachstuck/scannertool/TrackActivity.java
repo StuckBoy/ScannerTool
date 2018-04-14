@@ -100,15 +100,16 @@ public class TrackActivity extends AppCompatActivity {
 
             String pkgDetails[] = result.split("_");
 
-            if (result.equals("Success")) {
-            /*    Intent ListIntent = new Intent(TrackActivity.this, PkgListActivity.class);
+            if (result.equals("Error")) {
+                Toast.makeText(TrackActivity.this, "Error, package history not found.", Toast.LENGTH_LONG).show();
+            }
+            else {
+                Intent ListIntent = new Intent(TrackActivity.this, PkgListActivity.class);
                 ListIntent.putExtra("pkgData", pkgDetails);
                 ListIntent.putExtra("requestedPkgs", splitPkgs);
                 TrackActivity.this.startActivity(ListIntent);
                 finish();
-            }else if (result.equals("Error")) {
-                Toast.makeText(TrackActivity.this, "Error, package history not found.", Toast.LENGTH_LONG).show();
-            */}
+            }
         }
     }
 }

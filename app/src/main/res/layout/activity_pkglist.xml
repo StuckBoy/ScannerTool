@@ -8,9 +8,16 @@
         android:id="@+id/pkgList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:gravity="center">
 
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="12pt"
+            android:text="@string/str_searchResults" />
     </LinearLayout>
 
 </ScrollView>

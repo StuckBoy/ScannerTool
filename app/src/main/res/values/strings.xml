@@ -15,6 +15,7 @@
     <string name="str_trackPckg">Track Package</string>
     <string name="str_scanPckg">Scan\nPackage</string>
     <string name="str_scanPckgNoSplit">Scan Package</string>
+    <string name="str_searchResults"><u>Search Results</u></string>
     <string name="str_manualScan">Manual\nEntry</string>
     <string name="str_getLocation">Get Coords</string>
     <string name="str_coords">Coords:</string>
