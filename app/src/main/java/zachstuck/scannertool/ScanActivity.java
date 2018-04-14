@@ -67,7 +67,7 @@ public class ScanActivity extends AppCompatActivity {
             username = extras.getString("userKey");
             userSlot.setText(username);
         }
-        catch (NullPointerException ne){
+        catch (NullPointerException npe){
             userSlot.setText(R.string.str_error);
         }
 

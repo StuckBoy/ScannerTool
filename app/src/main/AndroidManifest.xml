@@ -36,6 +36,9 @@
         <activity android:name=".ScanActivity">
 
         </activity>
+        <activity android:name=".PkgListActivity">
+
+        </activity>
     </application>
 
 </manifest>
