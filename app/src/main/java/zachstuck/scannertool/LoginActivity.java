@@ -24,7 +24,7 @@ import java.net.URLEncoder;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button submitButton, returnButton;
+    Button submitButton, returnButton, registerButton;
     EditText userCred, passCred;
     private String username, password;
 
@@ -50,6 +50,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+            }
+        });
+        registerButton = findViewById(R.id.Register);
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Redirect to register page.
             }
         });
     }

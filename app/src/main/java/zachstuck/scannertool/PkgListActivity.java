@@ -51,7 +51,7 @@ public class PkgListActivity extends AppCompatActivity {
                 aTextView.setTypeface(null, Typeface.BOLD);
             }
             else {
-                aTextView.setTextSize(15);
+                aTextView.setTextSize(11);
             }
             aTextView.setTextColor(getResources().getColor(R.color.black));
             aTextView.setText(pkgDetails[i]);
@@ -62,6 +62,11 @@ public class PkgListActivity extends AppCompatActivity {
     public void noPkgData() {
         Intent backIntent = new Intent(PkgListActivity.this, TrackActivity.class);
         Toast.makeText(PkgListActivity.this, "Couldn't load package details.", Toast.LENGTH_SHORT).show();
+        PkgListActivity.this.startActivity(backIntent);
+    }
+
+    public void onBackPressed() {
+        Intent backIntent = new Intent(PkgListActivity.this, TrackActivity.class);
         PkgListActivity.this.startActivity(backIntent);
     }
 }

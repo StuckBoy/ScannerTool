@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 public class TrackActivity extends AppCompatActivity {
 
-    Button trackPkg, returnButton;
+    Button trackPkg, returnButton, registerButton;
     EditText packageField;
     String splitPkgs[];
 
@@ -49,6 +49,13 @@ public class TrackActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+            }
+        });
+        registerButton = findViewById(R.id.Register);
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Go to register page for Tracker, not Scanner
             }
         });
     }
@@ -75,19 +82,16 @@ public class TrackActivity extends AppCompatActivity {
                 URLConnection connection = theURL.openConnection();
                 connection.setDoOutput(true);
                 OutputStreamWriter outWriter = new OutputStreamWriter(connection.getOutputStream());
-
                 outWriter.write(data);
                 outWriter.flush();
 
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
                 StringBuilder stringBuilder = new StringBuilder();
                 String line;
 
                 while ((line = bufferedReader.readLine()) != null) {
                     stringBuilder.append(line);
                 }
-
                 return stringBuilder.toString();
 
             } catch (Exception e) {
@@ -97,9 +101,7 @@ public class TrackActivity extends AppCompatActivity {
 
         protected void onPostExecute(String result) {
             Log.d("onPostExecute", result);
-
             String pkgDetails[] = result.split("_");
-
             if (result.equals("Error")) {
                 Toast.makeText(TrackActivity.this, "Error, package history not found.", Toast.LENGTH_LONG).show();
             }
