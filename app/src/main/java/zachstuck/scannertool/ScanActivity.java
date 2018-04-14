@@ -204,6 +204,7 @@ public class ScanActivity extends AppCompatActivity {
         int year, month, day, hour, minute;
         year = cal.get(Calendar.YEAR);
         month = cal.get(Calendar.MONTH);
+        month++;
         day = cal.get(Calendar.DATE);
         hour = cal.get(Calendar.HOUR_OF_DAY);
         minute = cal.get(Calendar.MINUTE);
