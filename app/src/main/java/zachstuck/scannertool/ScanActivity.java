@@ -208,7 +208,11 @@ public class ScanActivity extends AppCompatActivity {
         day = cal.get(Calendar.DATE);
         hour = cal.get(Calendar.HOUR_OF_DAY);
         minute = cal.get(Calendar.MINUTE);
-        timeSlot.setText(month + "/" + day + "/" + year + " @ " + hour + ":" + minute);
+        String aMinute = String.valueOf(minute);
+        if (minute < 10) {
+            aMinute = "0" + String.valueOf(minute);
+        }
+        timeSlot.setText(month + "/" + day + "/" + year + " @ " + hour + ":" + aMinute);
     }
 
     public void onBackPressed() {

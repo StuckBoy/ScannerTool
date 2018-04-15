@@ -41,11 +41,7 @@ public class PkgListActivity extends AppCompatActivity {
 
     public void populateView(String[] pkgNums, String[] pkgDetails) {
         for (int i = 0; i < pkgDetails.length; i++) {
-            TextView aTextView = new TextView(PkgListActivity.this);
-            LinearLayout.LayoutParams layoutParams = (new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
-            aTextView.setLayoutParams(layoutParams);
-            aTextView.setGravity(Gravity.CENTER);
-            aTextView.setPadding(0,10,0,10);
+            TextView aTextView = buildATextView();
             if (Arrays.asList(pkgNums).contains(pkgDetails[i])) {
                 aTextView.setTextSize(25);
                 aTextView.setTypeface(null, Typeface.BOLD);
@@ -53,10 +49,19 @@ public class PkgListActivity extends AppCompatActivity {
             else {
                 aTextView.setTextSize(11);
             }
-            aTextView.setTextColor(getResources().getColor(R.color.black));
             aTextView.setText(pkgDetails[i]);
             listContainer.addView(aTextView);
         }
+    }
+
+    public TextView buildATextView() {
+        TextView tv = new TextView(PkgListActivity.this);
+        tv.setTextColor(getResources().getColor(R.color.black));
+        LinearLayout.LayoutParams layoutParams = (new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        tv.setLayoutParams(layoutParams);
+        tv.setGravity(Gravity.CENTER);
+        tv.setPadding(0,10,0,10);
+        return tv;
     }
 
     public void noPkgData() {
@@ -68,5 +73,6 @@ public class PkgListActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent backIntent = new Intent(PkgListActivity.this, TrackActivity.class);
         PkgListActivity.this.startActivity(backIntent);
+        finish();
     }
 }
