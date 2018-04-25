@@ -280,7 +280,7 @@ public class ScanActivity extends AppCompatActivity {
 
         protected void onPostExecute(String result) {
             Log.d("onPostExecute", result);
-            if (result.equals("Success")) {
+            if (result.contains("Success")) {
                 Toast.makeText(ScanActivity.this, "Upload Complete.", Toast.LENGTH_LONG).show();
                 Intent finishIntent = new Intent(ScanActivity.this, UserPageActivity.class);
                 finishIntent.putExtra("userKey", userSlot.getText().toString());
