@@ -63,6 +63,41 @@ public class ScanActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         String username;
 
+        locMan = (LocationManager) aContext.getSystemService(Context.LOCATION_SERVICE);
+        final LocationListener locListen = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location loc) {
+                double latString = loc.getLatitude();
+                double lonString = loc.getLongitude();
+                String timeString = String.format("%.4f", latString) + ", " + String.format("%.4f", lonString);
+                coordSlot.setText(timeString);
+                Log.d("Coordinates", "The GPS location has updated.");
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+                Log.d("Disabled:", "Service Provider is disabled.");
+                checkForLocEnabled(locMan, aContext);
+            }
+        };
+        try {
+            locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locListen);
+        }
+        catch(SecurityException e) {
+            checkForLocEnabled(locMan, aContext);
+        }
+
+
         try {
             username = extras.getString("userKey");
             userSlot.setText(username);
@@ -93,11 +128,13 @@ public class ScanActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    locMan.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    locMan.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locListen);
                     Toast.makeText(ScanActivity.this, "Last Location Fetched", Toast.LENGTH_SHORT).show();
+                    //Log.d("Coordinates Fetched :", (locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).toString()));
                 }
                 catch(SecurityException e) {
-                    checkForLocEnabled(locMan, aContext);
+                    //checkForLocEnabled(locMan, aContext);
                 }
             }
         });
@@ -114,46 +151,13 @@ public class ScanActivity extends AppCompatActivity {
                 setTime();
             }
         });
-
-        locMan = (LocationManager) aContext.getSystemService(Context.LOCATION_SERVICE);
-        LocationListener locListen = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location loc) {
-                double latString = loc.getLatitude();
-                double lonString = loc.getLongitude();
-                String timeString = String.format("%.4f", latString) + ", " + String.format("%.4f", lonString);
-                coordSlot.setText(timeString);
-            }
-
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String s) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String s) {
-
-         }
-
-        };
-        try {
-            locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, locListen);
-        }
-        catch(SecurityException e) {
-            checkForLocEnabled(locMan, aContext);
-        }
         setTime();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        checkForLocEnabled(locMan, aContext);
+        //checkForLocEnabled(locMan, aContext);
     }
 
     private void checkForLocEnabled(LocationManager locMan, Context aContext) {
