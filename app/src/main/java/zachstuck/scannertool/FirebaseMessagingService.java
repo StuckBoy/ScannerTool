@@ -33,7 +33,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         Notification myNotif = new Notification.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("My Firebase Push notification")
+                .setContentTitle("Package Location Update")
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setSound(soundUri)

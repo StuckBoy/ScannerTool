@@ -71,9 +71,9 @@ public class TrackActivity extends AppCompatActivity {
             try {
                 String link = "http://euclid.nmu.edu/~zstuck/seniorProjStuff/pkgLookup.php";
                 String data = "";
-                for (int i = 0; i <= args.length; i++) {
+                for (int i = 0; i < args[0].length; i++) {
                     data += URLEncoder.encode(("pkg" + i), "UTF-8") + "=" + URLEncoder.encode(args[0][i], "UTF-8");
-                    if (i + 1 <= args.length) {
+                    if (i + 1 < args[0].length) {
                         data += "&";
                     }
                 }
