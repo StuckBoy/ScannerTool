@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -18,61 +20,101 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 
 /**
- * Created by Zachary Stuck on 3/21/2018
+ * Created by Zachary Stuck on 5/2/2018
  * for project ScannerTool.
  */
-
-public class TrackActivity extends AppCompatActivity {
-
-    Button trackPkg, returnButton, registerButton, loginButton;
+public class CustomerPageActivity extends AppCompatActivity {
+    Button trackPkgButton, logoutButton, quickLookupButton;
+    CheckBox email, notifications;
     EditText packageField;
+    TextView customerField;
     String splitPkgs[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_track);
+        setContentView(R.layout.activity_customerpage);
         packageField = findViewById(R.id.PackageEntry);
-        trackPkg = findViewById(R.id.TrackButton);
-        trackPkg.setOnClickListener(new View.OnClickListener() {
+        customerField = findViewById(R.id.userField);
+        Bundle userInfo = getIntent().getExtras();
+        try {
+            String username = userInfo.getString("userKey");
+            customerField.setText(username);
+        }
+        catch (NullPointerException ne) {
+            customerField.setText(R.string.str_error);
+        }
+        email = findViewById(R.id.email);
+        notifications = findViewById(R.id.pushNotify);
+        email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkCheckBoxes();
+            }
+        });
+        notifications.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkCheckBoxes();
+            }
+        });
+
+        try {
+            String prefStatus = userInfo.getString("preferences");
+            switch (prefStatus) {
+                case ("both"):
+                    email.toggle();
+                    notifications.toggle();
+                    break;
+
+                case ("email"):
+                    email.toggle();
+                    break;
+
+                case ("notifications"):
+                    notifications.toggle();
+                    break;
+            }
+        }
+        catch (NullPointerException ne) {
+            email.setChecked(false);
+            notifications.setChecked(false);
+        }
+
+        trackPkgButton = findViewById(R.id.TrackButton);
+        trackPkgButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String pkgList = packageField.getText().toString();
                 splitPkgs = pkgList.split("\\n");
-                //Do async php stuff and switch to scrollview with detailed info.
-                new AsyncPkgLookup().execute(splitPkgs);
+                //Append numbers to last searches, drop oldest searches in FIFO style
+                new CustomerPageActivity.AsyncPkgLookup().execute(splitPkgs);
             }
         });
-        returnButton = findViewById(R.id.BackButton);
-        returnButton.setOnClickListener(new View.OnClickListener() {
+        logoutButton = findViewById(R.id.BackButton);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
-        registerButton = findViewById(R.id.Register);
-        registerButton.setOnClickListener(new View.OnClickListener() {
+        quickLookupButton = findViewById(R.id.QuickLookupButton);
+        quickLookupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Go to register page for Tracker, not Scanner
-            }
-        });
-
-        loginButton = findViewById(R.id.Login);
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent startIntent = new Intent(TrackActivity.this, TrackActivityLogin.class);
-                TrackActivity.this.startActivity(startIntent);
-                finish();
+                //Get the quick lookup numbers
             }
         });
     }
 
     public void onBackPressed() {
-        Intent finishIntent = new Intent(TrackActivity.this, MainActivity.class);
+        Intent finishIntent = new Intent(CustomerPageActivity.this, TrackActivityLogin.class);
         startActivity(finishIntent);
         finish();
+    }
+
+    public void checkCheckBoxes() {
+        //Get status of check boxes, then send to php with status of both.
     }
 
     private class AsyncPkgLookup extends AsyncTask<String[], String, String> {
@@ -112,13 +154,13 @@ public class TrackActivity extends AppCompatActivity {
             Log.d("onPostExecute", result);
             String pkgDetails[] = result.split("_");
             if (result.equals("Error")) {
-                Toast.makeText(TrackActivity.this, "Error, package history not found.", Toast.LENGTH_LONG).show();
+                Toast.makeText(CustomerPageActivity.this, "Error, package history not found.", Toast.LENGTH_LONG).show();
             }
             else {
-                Intent ListIntent = new Intent(TrackActivity.this, PkgListActivity.class);
+                Intent ListIntent = new Intent(CustomerPageActivity.this, PkgListActivity.class);
                 ListIntent.putExtra("pkgData", pkgDetails);
                 ListIntent.putExtra("requestedPkgs", splitPkgs);
-                TrackActivity.this.startActivity(ListIntent);
+                CustomerPageActivity.this.startActivity(ListIntent);
                 finish();
             }
         }
