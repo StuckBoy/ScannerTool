@@ -115,9 +115,9 @@ public class ScanActivity extends AppCompatActivity {
                 String timestamp = timeSlot.getText().toString();
                 String coords = coordSlot.getText().toString();
                 new AsyncScanSubmit().execute(username, pkgNum, timestamp, coords);
-
             }
         });
+
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

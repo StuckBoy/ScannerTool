@@ -25,6 +25,7 @@
         android:paddingRight="25dp">
 
         <EditText
+            android:id="@+id/pkgField"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".15"
@@ -43,17 +44,12 @@
         android:paddingRight="25dp">
 
     <EditText
+        android:id="@+id/coordSlot"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight=".15"
-        android:inputType="none"
+        android:inputType="numberDecimal"
         android:hint="@string/str_Location"/>
-
-        <Button
-            android:id="@+id/GetCoords"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/str_getLocation"/>
 
     </LinearLayout>
 

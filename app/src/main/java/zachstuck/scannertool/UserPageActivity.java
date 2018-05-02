@@ -60,6 +60,7 @@ public class UserPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent manIntent = new Intent(UserPageActivity.this, ManualEntryActivity.class);
+                manIntent.putExtra("userKey", userfield.getText());
                 startActivity(manIntent);
             }
         });
