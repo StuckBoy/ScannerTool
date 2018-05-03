@@ -1,6 +1,8 @@
 package zachstuck.scannertool;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,9 +20,12 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- * Created by Zachary Stuck on 5/2/2018
+ * Created by Zachary Stuck on 4/27/2018
  * for project ScannerTool.
  */
 public class CustomerPageActivity extends AppCompatActivity {
@@ -29,14 +34,20 @@ public class CustomerPageActivity extends AppCompatActivity {
     EditText packageField;
     TextView customerField;
     String splitPkgs[];
+    String prefStatus;
+    SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle userInfo = getIntent().getExtras();
         setContentView(R.layout.activity_customerpage);
+        pref = getApplicationContext().getSharedPreferences("pkgs", Context.MODE_PRIVATE);
+        final String qPkgs = pref.getString("pkgs", "");
+        final String[] qPkgList = qPkgs.split(",");
+
         packageField = findViewById(R.id.PackageEntry);
         customerField = findViewById(R.id.userField);
-        Bundle userInfo = getIntent().getExtras();
         try {
             String username = userInfo.getString("userKey");
             customerField.setText(username);
@@ -60,7 +71,7 @@ public class CustomerPageActivity extends AppCompatActivity {
         });
 
         try {
-            String prefStatus = userInfo.getString("preferences");
+            prefStatus = userInfo.getString("preferences");
             switch (prefStatus) {
                 case ("both"):
                     email.toggle();
@@ -87,7 +98,25 @@ public class CustomerPageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String pkgList = packageField.getText().toString();
                 splitPkgs = pkgList.split("\\n");
-                //Append numbers to last searches, drop oldest searches in FIFO style
+                List<String> pkgStringList = new ArrayList<>(Arrays.asList(qPkgList));
+                //To avoid repeats, clear old history
+                pkgStringList.clear();
+                for (String aPkg: splitPkgs) {
+                    pkgStringList.add(aPkg);
+                }
+                //This cover initial default case
+                if (pkgStringList.get(0).equals("")) {
+                    pkgStringList.remove(0);
+                }
+                while (pkgStringList.size() > 5) {
+                    pkgStringList.remove(0);
+                }
+                String[] pkgStringListArray = pkgStringList.toArray(new String[pkgStringList.size()]);
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < pkgStringListArray.length; i++) {
+                    sb.append(pkgStringListArray[i]).append(",");
+                }
+                pref.edit().putString("pkgs", sb.toString()).commit();
                 new CustomerPageActivity.AsyncPkgLookup().execute(splitPkgs);
             }
         });
@@ -103,6 +132,8 @@ public class CustomerPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Get the quick lookup numbers
+                splitPkgs = qPkgList;
+                new CustomerPageActivity.AsyncPkgLookup().execute(qPkgList);
             }
         });
     }
@@ -157,9 +188,11 @@ public class CustomerPageActivity extends AppCompatActivity {
                 Toast.makeText(CustomerPageActivity.this, "Error, package history not found.", Toast.LENGTH_LONG).show();
             }
             else {
-                Intent ListIntent = new Intent(CustomerPageActivity.this, PkgListActivity.class);
+                Intent ListIntent = new Intent(CustomerPageActivity.this, CustPkgListActivity.class);
                 ListIntent.putExtra("pkgData", pkgDetails);
                 ListIntent.putExtra("requestedPkgs", splitPkgs);
+                ListIntent.putExtra("preferences", prefStatus);
+                ListIntent.putExtra("userKey", customerField.getText());
                 CustomerPageActivity.this.startActivity(ListIntent);
                 finish();
             }

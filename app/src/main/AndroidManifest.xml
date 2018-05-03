@@ -45,6 +45,9 @@
         <activity android:name=".TrackActivityLogin">
 
         </activity>
+        <activity android:name=".CustPkgListActivity">
+
+        </activity>
 
         <service android:name=".MyFirebaseInstanceIdService"
             android:enabled="true"
