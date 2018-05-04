@@ -123,7 +123,8 @@ public class CustomerPageActivity extends AppCompatActivity {
                     sb.append(pkgStringListArray[i]).append(",");
                 }
                 //Commit package list to SharedPreferences
-                pref.edit().putString("pkgs", sb.toString()).commit();
+                SharedPreferences.Editor edit = pref.edit();
+                edit.putString("pkgs", sb.toString()).commit();
                 new CustomerPageActivity.AsyncPkgLookup().execute(splitPkgs);
             }
         });
@@ -140,6 +141,8 @@ public class CustomerPageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //splitPkgs becoms qPkgList contents for Intent storage
                 splitPkgs = qPkgList;
+                SharedPreferences.Editor edit = pref.edit();
+                edit.putString("pkgs", qPkgs).commit();
                 new CustomerPageActivity.AsyncPkgLookup().execute(qPkgList);
             }
         });
