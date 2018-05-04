@@ -16,6 +16,10 @@ import java.util.Arrays;
  * for project ScannerTool.
  */
 public class PkgListActivity extends AppCompatActivity {
+    /*
+    This activity retrieves the package information stored in the previous intent,
+    and then constructs textviews with the relevant information.
+     */
 
     String[] pkgNums, pkgDetails;
     LinearLayout listContainer;
@@ -28,6 +32,7 @@ public class PkgListActivity extends AppCompatActivity {
         listContainer = findViewById(R.id.pkgList);
 
         try {
+            //Retrieve the package numbers, and the data associated with it.
             pkgNums = extras.getStringArray("requestedPkgs");
             pkgDetails = extras.getStringArray("pkgData");
             populateView(pkgNums, pkgDetails);
@@ -40,8 +45,10 @@ public class PkgListActivity extends AppCompatActivity {
     }
 
     public void populateView(String[] pkgNums, String[] pkgDetails) {
+        //For each package, construct a textview using the associated data.
         for (int i = 0; i < pkgDetails.length; i++) {
             TextView aTextView = buildATextView();
+            //Bold the package num for each detail list.
             if (Arrays.asList(pkgNums).contains(pkgDetails[i])) {
                 aTextView.setTextSize(25);
                 aTextView.setTypeface(null, Typeface.BOLD);
@@ -55,6 +62,7 @@ public class PkgListActivity extends AppCompatActivity {
     }
 
     public TextView buildATextView() {
+        //This constructs a textview to be used in populateView()
         TextView tv = new TextView(PkgListActivity.this);
         tv.setTextColor(getResources().getColor(R.color.black));
         LinearLayout.LayoutParams layoutParams = (new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));

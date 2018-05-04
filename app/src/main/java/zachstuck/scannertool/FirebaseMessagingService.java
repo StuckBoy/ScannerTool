@@ -19,10 +19,18 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
     @Override
     public void onMessageReceived(RemoteMessage message) {
-        sendMyNotification(message.getNotification().getBody());
+        String aMessage = "";
+        try {
+            //Retrieve message contents
+            aMessage = message.getNotification().getBody();
+        }
+        catch (NullPointerException ne) {
+            aMessage = "Error";
+        }
+        sendMyNotification(aMessage);
     }
 
-
+    //Constructs the push notification to be shown on mobile device.
     private void sendMyNotification(String message) {
         //On click of notification it redirect to this Activity
         Intent intent = new Intent(this, MainActivity.class);
@@ -31,6 +39,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         Uri soundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
+        //Construct the notification
         Notification myNotif = new Notification.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("Package Location Update")

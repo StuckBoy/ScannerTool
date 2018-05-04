@@ -8,6 +8,7 @@ import android.widget.Button;
 
 
 public class MainActivity extends AppCompatActivity {
+    //Main entry point for application
 
     Button logButton, trackButton;
 

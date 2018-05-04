@@ -1,6 +1,7 @@
 package zachstuck.scannertool;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,10 @@ import java.net.URLEncoder;
  */
 
 public class LoginActivity extends AppCompatActivity {
+    /*
+    Simply put, this activity is for scanners to log in to scan packages.
+    Users who are not scanners yet can register using the web form.
+     */
 
     Button submitButton, returnButton, registerButton;
     EditText userCred, passCred;
@@ -56,7 +61,9 @@ public class LoginActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Redirect to register page.
+                //Start up a web browser for user registration
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://euclid.nmu.edu/~zstuck/seniorProjStuff/webScannerForm.php"));
+                startActivity(browserIntent);
             }
         });
     }
@@ -105,6 +112,7 @@ public class LoginActivity extends AppCompatActivity {
 
         protected void onPostExecute(String result) {
             Log.d("onPostExecute", result);
+            //If login is successful, start the next activity after storing their username.
             if (result.equals("Success!")) {
                 Intent logIntent = new Intent(LoginActivity.this, UserPageActivity.class);
                 logIntent.putExtra("userKey", username);

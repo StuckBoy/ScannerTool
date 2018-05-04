@@ -22,6 +22,11 @@ import java.net.URLEncoder;
  * for project ScannerTool.
  */
 public class TrackActivityLogin extends AppCompatActivity {
+    /*Handles login for customer with profile.
+    Here, they may lookup packages, which are then stored as short term history
+    for faster lookup times.
+     */
+
     Button submitButton, returnButton;
     EditText userCred, passCred;
     private String username, password;
@@ -59,6 +64,7 @@ public class TrackActivityLogin extends AppCompatActivity {
         finish();
     }
 
+    //Async task handles data to and from the php script.
     private class AsyncLogin extends AsyncTask<String, String, String> {
 
         protected String doInBackground(String... args) {
@@ -66,6 +72,7 @@ public class TrackActivityLogin extends AppCompatActivity {
                 String username = args[0];
                 String password = args[1];
 
+                //Build URL string to use in output & input stream.
                 String link = "http://euclid.nmu.edu/~zstuck/seniorProjStuff/customerLogin.php";
                 String data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
                 data += "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
@@ -82,7 +89,7 @@ public class TrackActivityLogin extends AppCompatActivity {
 
                 StringBuilder stringBuilder = new StringBuilder();
                 String line;
-
+                //Read in output from php script, then handle accordingly in onPostExecute
                 while((line = bufferedReader.readLine()) != null) {
                     stringBuilder.append(line);
                 }

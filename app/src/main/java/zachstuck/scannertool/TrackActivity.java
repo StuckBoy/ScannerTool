@@ -1,6 +1,7 @@
 package zachstuck.scannertool;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,10 @@ import java.net.URLEncoder;
  */
 
 public class TrackActivity extends AppCompatActivity {
+    /*
+    This activity is used for customers who do not have a profile, but still wish to look
+    up information regarding a barcode that they know of.
+     */
 
     Button trackPkg, returnButton, registerButton, loginButton;
     EditText packageField;
@@ -33,16 +38,18 @@ public class TrackActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track);
         packageField = findViewById(R.id.PackageEntry);
+
         trackPkg = findViewById(R.id.TrackButton);
         trackPkg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String pkgList = packageField.getText().toString();
                 splitPkgs = pkgList.split("\\n");
-                //Do async php stuff and switch to scrollview with detailed info.
+                //Run async lookup using array of package numbers
                 new AsyncPkgLookup().execute(splitPkgs);
             }
         });
+
         returnButton = findViewById(R.id.BackButton);
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,11 +57,14 @@ public class TrackActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
         registerButton = findViewById(R.id.Register);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Go to register page for Tracker, not Scanner
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://euclid.nmu.edu/~zstuck/seniorProjStuff/webCustomerForm.php"));
+                startActivity(browserIntent);
             }
         });
 
@@ -78,6 +88,7 @@ public class TrackActivity extends AppCompatActivity {
     private class AsyncPkgLookup extends AsyncTask<String[], String, String> {
         protected String doInBackground(String[]... args) {
             try {
+                //Construct a URL using the package array given.
                 String link = "http://euclid.nmu.edu/~zstuck/seniorProjStuff/pkgLookup.php";
                 String data = "";
                 for (int i = 0; i < args[0].length; i++) {
@@ -87,6 +98,7 @@ public class TrackActivity extends AppCompatActivity {
                     }
                 }
 
+                //Generate a URL object to flush and then read from.
                 URL theURL = new URL(link);
                 URLConnection connection = theURL.openConnection();
                 connection.setDoOutput(true);
@@ -115,6 +127,7 @@ public class TrackActivity extends AppCompatActivity {
                 Toast.makeText(TrackActivity.this, "Error, package history not found.", Toast.LENGTH_LONG).show();
             }
             else {
+                //Store the package data into an Intent, and then switch to PkgListActivity
                 Intent ListIntent = new Intent(TrackActivity.this, PkgListActivity.class);
                 ListIntent.putExtra("pkgData", pkgDetails);
                 ListIntent.putExtra("requestedPkgs", splitPkgs);

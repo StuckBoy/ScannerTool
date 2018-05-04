@@ -31,6 +31,10 @@ import java.util.Calendar;
  */
 
 public class ManualEntryActivity extends AppCompatActivity {
+    /*
+    Similar to ScanActivity, only information can be manually entered
+    before being submitted.
+     */
 
     Button backButton, submitButton, refreshButton;
     EditText timeSlot, coordSlot, userSlot, pkgSlot;

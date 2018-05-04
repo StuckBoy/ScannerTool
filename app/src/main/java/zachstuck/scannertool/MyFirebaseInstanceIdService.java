@@ -20,6 +20,10 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
 
     @Override
     public void onTokenRefresh() {
+        /*
+        This token identifies the phone, allowing for push notifications specifically to it.
+        It is generated on first startup, and must be properly stored for later use.
+         */
         String refreshToken = FirebaseInstanceId.getInstance().getToken();
         Log.d("\n\n\nThe Token: \n\n\n", refreshToken);
         System.out.print(refreshToken);

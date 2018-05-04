@@ -42,12 +42,15 @@ public class CustomerPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Bundle userInfo = getIntent().getExtras();
         setContentView(R.layout.activity_customerpage);
+
+        //Fetch SharedPreference string, this string is the short term history from last search.
         pref = getApplicationContext().getSharedPreferences("pkgs", Context.MODE_PRIVATE);
         final String qPkgs = pref.getString("pkgs", "");
         final String[] qPkgList = qPkgs.split(",");
 
         packageField = findViewById(R.id.PackageEntry);
         customerField = findViewById(R.id.userField);
+
         try {
             String username = userInfo.getString("userKey");
             customerField.setText(username);
@@ -55,6 +58,7 @@ public class CustomerPageActivity extends AppCompatActivity {
         catch (NullPointerException ne) {
             customerField.setText(R.string.str_error);
         }
+
         email = findViewById(R.id.email);
         notifications = findViewById(R.id.pushNotify);
         email.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +75,7 @@ public class CustomerPageActivity extends AppCompatActivity {
         });
 
         try {
+            //Set checkbox toggles from user preferences.
             prefStatus = userInfo.getString("preferences");
             switch (prefStatus) {
                 case ("both"):
@@ -106,8 +111,9 @@ public class CustomerPageActivity extends AppCompatActivity {
                 }
                 //This cover initial default case
                 if (pkgStringList.get(0).equals("")) {
-                    pkgStringList.remove(0);
+                    pkgStringList.set(0, " ");
                 }
+                //Only lookup 5 numbers
                 while (pkgStringList.size() > 5) {
                     pkgStringList.remove(0);
                 }
@@ -116,6 +122,7 @@ public class CustomerPageActivity extends AppCompatActivity {
                 for (int i = 0; i < pkgStringListArray.length; i++) {
                     sb.append(pkgStringListArray[i]).append(",");
                 }
+                //Commit package list to SharedPreferences
                 pref.edit().putString("pkgs", sb.toString()).commit();
                 new CustomerPageActivity.AsyncPkgLookup().execute(splitPkgs);
             }
@@ -131,7 +138,7 @@ public class CustomerPageActivity extends AppCompatActivity {
         quickLookupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Get the quick lookup numbers
+                //splitPkgs becoms qPkgList contents for Intent storage
                 splitPkgs = qPkgList;
                 new CustomerPageActivity.AsyncPkgLookup().execute(qPkgList);
             }
@@ -153,6 +160,7 @@ public class CustomerPageActivity extends AppCompatActivity {
             try {
                 String link = "http://euclid.nmu.edu/~zstuck/seniorProjStuff/pkgLookup.php";
                 String data = "";
+                //Construct URL with package numbers as data
                 for (int i = 0; i < args[0].length; i++) {
                     data += URLEncoder.encode(("pkg" + i), "UTF-8") + "=" + URLEncoder.encode(args[0][i], "UTF-8");
                     if (i + 1 < args[0].length) {

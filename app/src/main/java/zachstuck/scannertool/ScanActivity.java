@@ -1,6 +1,5 @@
 package zachstuck.scannertool;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,7 +9,6 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,7 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.zxing.client.android.Intents;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -37,6 +34,11 @@ import java.util.Calendar;
  */
 
 public class ScanActivity extends AppCompatActivity {
+    /*
+    This activity allows scanners to scan in barcode information,
+    associate it with GPS coordinates, a timestamp, and their username.
+    This data is then sent to a php script to be logged under the MySQL table.
+     */
 
     Button submitButton, cancelButton, coordButton, scanPkgButton, refreshButton;
     EditText timeSlot, userSlot, pkgSlot, coordSlot;
@@ -63,6 +65,7 @@ public class ScanActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         String username;
 
+        //Create a location manager to track location updates
         locMan = (LocationManager) aContext.getSystemService(Context.LOCATION_SERVICE);
         final LocationListener locListen = new LocationListener() {
             @Override
@@ -109,7 +112,7 @@ public class ScanActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Grab all relevant info, send to php
+                //Compile all relevant info, and send it to the async task.
                 String username = userSlot.getText().toString();
                 String pkgNum = pkgSlot.getText().toString();
                 String timestamp = timeSlot.getText().toString();
@@ -125,6 +128,8 @@ public class ScanActivity extends AppCompatActivity {
             }
         });
         coordButton.setOnClickListener(new View.OnClickListener() {
+            //This button will switch the location manager from location services to the network provider.
+            //This is may be prone to wider inaccuracy, but should still be within relative distance.
             @Override
             public void onClick(View view) {
                 try {

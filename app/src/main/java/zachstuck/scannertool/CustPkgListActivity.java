@@ -17,6 +17,10 @@ import java.util.Arrays;
  */
 
 public class CustPkgListActivity extends AppCompatActivity {
+    /*
+    Similar to PkgListActivity, this activity builds textviews using information
+    from previous activity, and then presents it to the user in a scrollview.
+     */
 
     String[] pkgNums, pkgDetails;
     String username, preferences;
