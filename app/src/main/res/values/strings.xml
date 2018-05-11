@@ -12,9 +12,11 @@
     <string name="str_currentUser">Submitting as:</string>
     <string name="str_userStatus">Logged in as: </string>
     <string name="str_timeStamp">Timestamp:</string>
-    <string name="str_trackPckg">Track Package</string>
+    <string name="str_trackPckg">Track Package(s)</string>
     <string name="str_scanPckg">Scan\nPackage</string>
+    <string name="str_quickLookup">Quick Lookup</string>
     <string name="str_scanPckgNoSplit">Scan Package</string>
+    <string name="str_searchResults"><u>Search Results</u></string>
     <string name="str_manualScan">Manual\nEntry</string>
     <string name="str_getLocation">Get Coords</string>
     <string name="str_coords">Coords:</string>
@@ -27,5 +29,8 @@
     <string name="str_goBack">Go Back</string>
     <string name="str_confirm">Confirm</string>
     <string name="str_cancel">Cancel</string>
+    <string name="str_Register">Register</string>
     <string name="str_error">Error</string>
+    <string name="str_email">E-Mail</string>
+    <string name="str_push">Push Notifications</string>
 </resources>

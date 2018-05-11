@@ -12,16 +12,18 @@ import android.widget.Toast;
 import java.util.Arrays;
 
 /**
- * Created by Zachary Stuck on 4/14/2018
+ * Created by Zachary Stuck on 4/26/2018
  * for project ScannerTool.
  */
-public class PkgListActivity extends AppCompatActivity {
+
+public class CustPkgListActivity extends AppCompatActivity {
     /*
-    This activity retrieves the package information stored in the previous intent,
-    and then constructs textviews with the relevant information.
+    Similar to PkgListActivity, this activity builds textviews using information
+    from previous activity, and then presents it to the user in a scrollview.
      */
 
     String[] pkgNums, pkgDetails;
+    String username, preferences;
     LinearLayout listContainer;
 
     @Override
@@ -29,10 +31,16 @@ public class PkgListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pkglist);
         Bundle extras = getIntent().getExtras();
+        try {
+            username = extras.getString("userKey");
+        }
+        catch (NullPointerException ne) {
+            username = "";
+        }
+
         listContainer = findViewById(R.id.pkgList);
 
         try {
-            //Retrieve the package numbers, and the data associated with it.
             pkgNums = extras.getStringArray("requestedPkgs");
             pkgDetails = extras.getStringArray("pkgData");
             populateView(pkgNums, pkgDetails);
@@ -42,13 +50,17 @@ public class PkgListActivity extends AppCompatActivity {
             pkgDetails = null;
             noPkgData();
         }
+        try {
+            preferences = extras.getString("preferences");
+        }
+        catch (NullPointerException ne) {
+            preferences = "none";
+        }
     }
 
     public void populateView(String[] pkgNums, String[] pkgDetails) {
-        //For each package, construct a textview using the associated data.
         for (int i = 0; i < pkgDetails.length; i++) {
             TextView aTextView = buildATextView();
-            //Bold the package num for each detail list.
             if (Arrays.asList(pkgNums).contains(pkgDetails[i])) {
                 aTextView.setTextSize(25);
                 aTextView.setTypeface(null, Typeface.BOLD);
@@ -62,8 +74,7 @@ public class PkgListActivity extends AppCompatActivity {
     }
 
     public TextView buildATextView() {
-        //This constructs a textview to be used in populateView()
-        TextView tv = new TextView(PkgListActivity.this);
+        TextView tv = new TextView(CustPkgListActivity.this);
         tv.setTextColor(getResources().getColor(R.color.black));
         LinearLayout.LayoutParams layoutParams = (new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
         tv.setLayoutParams(layoutParams);
@@ -73,14 +84,19 @@ public class PkgListActivity extends AppCompatActivity {
     }
 
     public void noPkgData() {
-        Intent backIntent = new Intent(PkgListActivity.this, TrackActivity.class);
-        Toast.makeText(PkgListActivity.this, "Couldn't load package details.", Toast.LENGTH_SHORT).show();
-        PkgListActivity.this.startActivity(backIntent);
+        Intent backIntent = new Intent(CustPkgListActivity.this, CustomerPageActivity.class);
+        Toast.makeText(CustPkgListActivity.this, "Couldn't load package details.", Toast.LENGTH_SHORT).show();
+        backIntent.putExtra("userKey", username);
+        backIntent.putExtra("preferences", preferences);
+        CustPkgListActivity.this.startActivity(backIntent);
+        finish();
     }
 
     public void onBackPressed() {
-        Intent backIntent = new Intent(PkgListActivity.this, TrackActivity.class);
-        PkgListActivity.this.startActivity(backIntent);
+        Intent backIntent = new Intent(CustPkgListActivity.this, CustomerPageActivity.class);
+        backIntent.putExtra("userKey", username);
+        backIntent.putExtra("preferences", preferences);
+        CustPkgListActivity.this.startActivity(backIntent);
         finish();
     }
 }

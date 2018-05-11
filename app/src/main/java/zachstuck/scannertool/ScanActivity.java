@@ -1,6 +1,5 @@
 package zachstuck.scannertool;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,7 +9,6 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,7 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.zxing.client.android.Intents;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -37,6 +34,11 @@ import java.util.Calendar;
  */
 
 public class ScanActivity extends AppCompatActivity {
+    /*
+    This activity allows scanners to scan in barcode information,
+    associate it with GPS coordinates, a timestamp, and their username.
+    This data is then sent to a php script to be logged under the MySQL table.
+     */
 
     Button submitButton, cancelButton, coordButton, scanPkgButton, refreshButton;
     EditText timeSlot, userSlot, pkgSlot, coordSlot;
@@ -63,6 +65,42 @@ public class ScanActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         String username;
 
+        //Create a location manager to track location updates
+        locMan = (LocationManager) aContext.getSystemService(Context.LOCATION_SERVICE);
+        final LocationListener locListen = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location loc) {
+                double latString = loc.getLatitude();
+                double lonString = loc.getLongitude();
+                String timeString = String.format("%.4f", latString) + ", " + String.format("%.4f", lonString);
+                coordSlot.setText(timeString);
+                Log.d("Coordinates", "The GPS location has updated.");
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+                Log.d("Disabled:", "Service Provider is disabled.");
+                checkForLocEnabled(locMan, aContext);
+            }
+        };
+        try {
+            locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locListen);
+        }
+        catch(SecurityException e) {
+            checkForLocEnabled(locMan, aContext);
+        }
+
+
         try {
             username = extras.getString("userKey");
             userSlot.setText(username);
@@ -74,15 +112,15 @@ public class ScanActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Grab all relevant info, send to php
+                //Compile all relevant info, and send it to the async task.
                 String username = userSlot.getText().toString();
                 String pkgNum = pkgSlot.getText().toString();
                 String timestamp = timeSlot.getText().toString();
                 String coords = coordSlot.getText().toString();
                 new AsyncScanSubmit().execute(username, pkgNum, timestamp, coords);
-
             }
         });
+
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,14 +128,18 @@ public class ScanActivity extends AppCompatActivity {
             }
         });
         coordButton.setOnClickListener(new View.OnClickListener() {
+            //This button will switch the location manager from location services to the network provider.
+            //This is may be prone to wider inaccuracy, but should still be within relative distance.
             @Override
             public void onClick(View view) {
                 try {
-                    locMan.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    locMan.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locListen);
                     Toast.makeText(ScanActivity.this, "Last Location Fetched", Toast.LENGTH_SHORT).show();
+                    //Log.d("Coordinates Fetched :", (locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).toString()));
                 }
                 catch(SecurityException e) {
-                    checkForLocEnabled(locMan, aContext);
+                    //checkForLocEnabled(locMan, aContext);
                 }
             }
         });
@@ -114,46 +156,13 @@ public class ScanActivity extends AppCompatActivity {
                 setTime();
             }
         });
-
-        locMan = (LocationManager) aContext.getSystemService(Context.LOCATION_SERVICE);
-        LocationListener locListen = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location loc) {
-                double latString = loc.getLatitude();
-                double lonString = loc.getLongitude();
-                String timeString = String.format("%.4f", latString) + ", " + String.format("%.4f", lonString);
-                coordSlot.setText(timeString);
-            }
-
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String s) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String s) {
-
-         }
-
-        };
-        try {
-            locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, locListen);
-        }
-        catch(SecurityException e) {
-            checkForLocEnabled(locMan, aContext);
-        }
         setTime();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        checkForLocEnabled(locMan, aContext);
+        //checkForLocEnabled(locMan, aContext);
     }
 
     private void checkForLocEnabled(LocationManager locMan, Context aContext) {
@@ -208,7 +217,11 @@ public class ScanActivity extends AppCompatActivity {
         day = cal.get(Calendar.DATE);
         hour = cal.get(Calendar.HOUR_OF_DAY);
         minute = cal.get(Calendar.MINUTE);
-        timeSlot.setText(month + "/" + day + "/" + year + " @ " + hour + ":" + minute);
+        String aMinute = String.valueOf(minute);
+        if (minute < 10) {
+            aMinute = "0" + String.valueOf(minute);
+        }
+        timeSlot.setText(month + "/" + day + "/" + year + " @ " + hour + ":" + aMinute);
     }
 
     public void onBackPressed() {
@@ -276,7 +289,7 @@ public class ScanActivity extends AppCompatActivity {
 
         protected void onPostExecute(String result) {
             Log.d("onPostExecute", result);
-            if (result.equals("Success")) {
+            if (result.contains("Success")) {
                 Toast.makeText(ScanActivity.this, "Upload Complete.", Toast.LENGTH_LONG).show();
                 Intent finishIntent = new Intent(ScanActivity.this, UserPageActivity.class);
                 finishIntent.putExtra("userKey", userSlot.getText().toString());

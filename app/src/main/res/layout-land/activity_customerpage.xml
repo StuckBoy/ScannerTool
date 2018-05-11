@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <TextView
+        android:id="@+id/userText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="12pt"
+        android:text="@string/str_trackWelcome"/>
+
+    <TextView
+        android:id="@+id/MultiMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userText"
+        android:textAlignment="center"
+        android:layout_centerVertical="true"
+        android:text="@string/str_trackMult"/>
+
+    <LinearLayout
+        android:id="@+id/TextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="1"
+        android:layout_below="@+id/MultiMessage">
+
+        <EditText
+            android:id="@+id/PackageEntry"
+            android:inputType="textMultiLine"
+            android:gravity="top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="4"
+            android:background="@color/lightGray"
+            android:hint="@string/str_pkgNumber"
+            android:textColor="@android:color/black"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/TextLayout"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/TrackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/str_trackPckg"/>
+
+        <Button
+            android:id="@+id/BackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/str_logout"/>
+
+        <Button
+            android:id="@+id/QuickLookupButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/str_quickLookup"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/userPrefs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/buttonContainer"
+        android:gravity="center">
+
+        <CheckBox
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/str_email"/>
+
+        <CheckBox
+            android:id="@+id/pushNotify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/str_push"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/logInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userPrefs"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/logStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/str_userStatus" />
+
+        <TextView
+            android:id="@+id/userField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/logStatus"
+            android:paddingStart="5dp"
+            android:textAlignment="center"
+            android:text=""/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,10 +1,9 @@
 package zachstuck.scannertool;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,24 +18,23 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 
 /**
- * Created by Zachary Stuck on 3/20/2018
- for project ScannerTool.
+ * Created by Zachary Stuck on 5/2/2018
+ * for project ScannerTool.
  */
-
-public class LoginActivity extends AppCompatActivity {
-    /*
-    Simply put, this activity is for scanners to log in to scan packages.
-    Users who are not scanners yet can register using the web form.
+public class TrackActivityLogin extends AppCompatActivity {
+    /*Handles login for customer with profile.
+    Here, they may lookup packages, which are then stored as short term history
+    for faster lookup times.
      */
 
-    Button submitButton, returnButton, registerButton;
+    Button submitButton, returnButton;
     EditText userCred, passCred;
     private String username, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_tracklogin);
 
         userCred = findViewById(R.id.userField);
         passCred = findViewById(R.id.passField);
@@ -47,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
                 //Do login checks
                 username = userCred.getText().toString();
                 password = passCred.getText().toString();
-                new AsyncLogin().execute(username, password);
+                new TrackActivityLogin.AsyncLogin().execute(username, password);
             }
         });
         returnButton = findViewById(R.id.goBack);
@@ -57,24 +55,16 @@ public class LoginActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        registerButton = findViewById(R.id.Register);
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Start up a web browser for user registration
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://euclid.nmu.edu/~zstuck/seniorProjStuff/webScannerForm.php"));
-                startActivity(browserIntent);
-            }
-        });
     }
 
     @Override
     public void onBackPressed() {
-        Intent finishIntent = new Intent(LoginActivity.this, MainActivity.class);
+        Intent finishIntent = new Intent(TrackActivityLogin.this, TrackActivity.class);
         startActivity(finishIntent);
         finish();
     }
 
+    //Async task handles data to and from the php script.
     private class AsyncLogin extends AsyncTask<String, String, String> {
 
         protected String doInBackground(String... args) {
@@ -82,7 +72,8 @@ public class LoginActivity extends AppCompatActivity {
                 String username = args[0];
                 String password = args[1];
 
-                String link = "http://euclid.nmu.edu/~zstuck/seniorProjStuff/scannerLogin.php";
+                //Build URL string to use in output & input stream.
+                String link = "http://euclid.nmu.edu/~zstuck/seniorProjStuff/customerLogin.php";
                 String data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
                 data += "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
 
@@ -98,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 StringBuilder stringBuilder = new StringBuilder();
                 String line;
-
+                //Read in output from php script, then handle accordingly in onPostExecute
                 while((line = bufferedReader.readLine()) != null) {
                     stringBuilder.append(line);
                 }
@@ -112,15 +103,16 @@ public class LoginActivity extends AppCompatActivity {
 
         protected void onPostExecute(String result) {
             Log.d("onPostExecute", result);
-            //If login is successful, start the next activity after storing their username.
-            if (result.equals("Success!")) {
-                Intent logIntent = new Intent(LoginActivity.this, UserPageActivity.class);
+            if (result.contains("Success!")) {
+                String preferences[] = result.split(" ");
+                Intent logIntent = new Intent(TrackActivityLogin.this, CustomerPageActivity.class);
                 logIntent.putExtra("userKey", username);
-                LoginActivity.this.startActivity(logIntent);
+                logIntent.putExtra("preferences", preferences[1]);
+                TrackActivityLogin.this.startActivity(logIntent);
                 finish();
             }
             else if (result.equals("Error")) {
-                Toast.makeText(LoginActivity.this, "Error logging in, please try again.", Toast.LENGTH_LONG).show();
+                Toast.makeText(TrackActivityLogin.this, "Error logging in, please try again.", Toast.LENGTH_LONG).show();
             }
         }
     }

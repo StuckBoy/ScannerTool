@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "462654334119",
+    "firebase_url": "https://senior-project-81660.firebaseio.com",
+    "project_id": "senior-project-81660",
+    "storage_bucket": "senior-project-81660.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:462654334119:android:552e7d1c8cc23c8a",
+        "android_client_info": {
+          "package_name": "zachstuck.scannertool"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "462654334119-vs1jve0g18gaj8ne1lv38khp6337fpe0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDliE6LqNRLs3rINdGaJYphRyhNjaW4qqk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

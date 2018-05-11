@@ -11,14 +11,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 /**
  * Created by Zachary Stuck on 3/27/2018
  * for project ScannerTool.
  */
 
 public class UserPageActivity extends AppCompatActivity {
+    /*
+    This activity allows scanners to scan a package, manually scan a package, or logout.
+     */
 
     Button scanButton, logButton, manEntryButton;
     TextView userfield;
@@ -50,23 +51,28 @@ public class UserPageActivity extends AppCompatActivity {
                 startActivity(scanIntent);
             }
         });
+
         logButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
+
         manEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent manIntent = new Intent(UserPageActivity.this, ManualEntryActivity.class);
+                manIntent.putExtra("userKey", userfield.getText());
                 startActivity(manIntent);
             }
         });
+        //Request permissions from user to access fine location.
         ActivityCompat.requestPermissions(UserPageActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
     }
 
     public void onBackPressed() {
+        //Construct an alert dialog to prompt user before logging out.
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(UserPageActivity.this);
         builder.setTitle("Logout Confirmation");
@@ -80,7 +86,7 @@ public class UserPageActivity extends AppCompatActivity {
         builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                //Canceled logout, resume normal activity
+                //Canceled logout, resume normal activity.
             }
         });
         builder.setIcon(android.R.drawable.ic_dialog_alert);
@@ -88,7 +94,7 @@ public class UserPageActivity extends AppCompatActivity {
     }
 
     public void logoutConfirmed() {
-        //Log the person out...kill their session
+        //Start activity for previous page, finish this activity.
         Intent logOutIntent = new Intent(UserPageActivity.this, LoginActivity.class);
         UserPageActivity.this.startActivity(logOutIntent);
         finish();
